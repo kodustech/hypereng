@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-heading: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Fira Code', monospace;
+
+  --color-bg: #06060b;
+  --color-bg-elevated: #0c0c14;
+  --color-bg-card: #10101c;
+  --color-border: #1c1c2e;
+  --color-border-hover: #2e2e48;
+  --color-text: #f0ede6;
+  --color-text-secondary: #9a96a6;
+  --color-text-tertiary: #5c586a;
+  --color-accent: #c8ff00;
+  --color-accent-hover: #b8ef00;
+  --color-red: #ff4444;
+  --color-red-soft: #ff444420;
+}
+
+/* ── Base ── */
+html {
+  scroll-behavior: smooth;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--color-border-hover); border-radius: 2px; }
+
+/* ── Film grain overlay ── */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 0.5s steps(10) infinite;
+}
+
+@keyframes grain-shift {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  30% { transform: translate(3%, -15%); }
+  50% { transform: translate(12%, 9%); }
+  70% { transform: translate(9%, 4%); }
+  90% { transform: translate(-1%, 7%); }
+}
+
+/* ── Section number watermarks ── */
+.section-num {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(8rem, 20vw, 16rem);
+  line-height: 0.8;
+  color: var(--color-border);
+  position: absolute;
+  right: -2%;
+  top: -4rem;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.4;
+}
+
+/* ── Ticker / marquee ── */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 40s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* ── Reveal on scroll ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Horizontal rule glow ── */
+.hr-glow {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-accent) 20%, var(--color-accent) 80%, transparent 100%);
+  opacity: 0.3;
+}
+
+/* ── Accent tag pill ── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  padding: 0.4rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
+  border-radius: 0;
+}
+
+/* ── Card hover lift ── */
+.card-lift {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-hover);
+}
+
+/* ── Big quote marks ── */
+.big-quote::before {
+  content: '\201C';
+  font-family: var(--font-display);
+  font-size: 6rem;
+  line-height: 1;
+  color: var(--color-accent);
+  opacity: 0.3;
+  position: absolute;
+  top: -1.5rem;
+  left: -0.5rem;
+}
+
+/* ── Button styles ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-primary:hover::after {
+  transform: translateX(100%);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-ghost:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: color-mix(in srgb, var(--color-accent) 5%, transparent);
+}
+
+/* ── Stat number style ── */
+.stat-number {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+/* ── Custom cursor for links ── */
+a { cursor: pointer; }

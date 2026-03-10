@@ -1,0 +1,170 @@
+---
+import type { Lang } from '../i18n/translations';
+import { t } from '../i18n/translations';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Atmospheric background -->
+  <div class="absolute inset-0">
+    <!-- Gradient orbs -->
+    <div class="absolute top-[15%] right-[10%] w-[600px] h-[600px] rounded-full opacity-[0.08]"
+         style="background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);"></div>
+    <div class="absolute bottom-[10%] left-[5%] w-[400px] h-[400px] rounded-full opacity-[0.04]"
+         style="background: radial-gradient(circle, #00aaff 0%, transparent 70%);"></div>
+
+    <!-- Grid -->
+    <div class="absolute inset-0 opacity-[0.04]"
+         style="background-image: linear-gradient(var(--color-text) 1px, transparent 1px), linear-gradient(90deg, var(--color-text) 1px, transparent 1px); background-size: 80px 80px;"></div>
+  </div>
+
+  <!-- Animated SVG circuit lines -->
+  <svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Horizontal circuit lines -->
+    <line x1="0" y1="20%" x2="100%" y2="20%" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="8 12" class="circuit-line" />
+    <line x1="0" y1="80%" x2="100%" y2="80%" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="8 12" class="circuit-line" />
+
+    <!-- Vertical circuit lines -->
+    <line x1="10%" y1="0" x2="10%" y2="100%" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="4 16" class="circuit-line-v" />
+    <line x1="90%" y1="0" x2="90%" y2="100%" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="4 16" class="circuit-line-v" />
+
+    <!-- Glowing data pulses traveling along lines -->
+    <circle r="3" fill="var(--color-accent)" opacity="0.6">
+      <animateMotion dur="8s" repeatCount="indefinite" path="M0,150 L1400,150" />
+    </circle>
+    <circle r="2" fill="var(--color-accent)" opacity="0.4">
+      <animateMotion dur="12s" repeatCount="indefinite" path="M1400,600 L0,600" />
+    </circle>
+    <circle r="2.5" fill="var(--color-accent)" opacity="0.5">
+      <animateMotion dur="10s" repeatCount="indefinite" path="M140,0 L140,900" />
+    </circle>
+
+    <!-- Node dots at intersections -->
+    <circle cx="10%" cy="20%" r="3" fill="none" stroke="var(--color-accent)" stroke-width="0.8" opacity="0.3">
+      <animate attributeName="opacity" values="0.1;0.5;0.1" dur="3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="90%" cy="20%" r="3" fill="none" stroke="var(--color-accent)" stroke-width="0.8" opacity="0.3">
+      <animate attributeName="opacity" values="0.1;0.5;0.1" dur="4s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="10%" cy="80%" r="3" fill="none" stroke="var(--color-accent)" stroke-width="0.8" opacity="0.3">
+      <animate attributeName="opacity" values="0.1;0.5;0.1" dur="3.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="90%" cy="80%" r="3" fill="none" stroke="var(--color-accent)" stroke-width="0.8" opacity="0.3">
+      <animate attributeName="opacity" values="0.1;0.5;0.1" dur="5s" repeatCount="indefinite" />
+    </circle>
+
+    <!-- Floating geometric shapes -->
+    <g class="float-shape" style="animation-delay: 0s;">
+      <rect x="85%" y="30%" width="40" height="40" rx="0" fill="none" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.15" transform="rotate(45, 0, 0)">
+        <animateTransform attributeName="transform" type="rotate" from="0 85% 30%" to="360 85% 30%" dur="20s" repeatCount="indefinite" />
+      </rect>
+    </g>
+    <g class="float-shape" style="animation-delay: -5s;">
+      <polygon points="80,0 100,35 60,35" fill="none" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.12" transform="translate(120, 500)">
+        <animateTransform attributeName="transform" type="rotate" from="0 80 17" to="-360 80 17" dur="25s" repeatCount="indefinite" />
+      </polygon>
+    </g>
+
+    <!-- Connection path with animated dash -->
+    <path d="M 0,50% Q 25%,35% 50%,50% T 100%,50%" fill="none" stroke="var(--color-accent)" stroke-width="0.3" opacity="0.08" stroke-dasharray="4 8">
+      <animate attributeName="stroke-dashoffset" from="0" to="-48" dur="3s" repeatCount="indefinite" />
+    </path>
+  </svg>
+
+  <!-- Floating orbs (CSS animated) -->
+  <div class="absolute top-[25%] left-[8%] w-1 h-1 bg-accent rounded-full opacity-40 animate-float-slow"></div>
+  <div class="absolute top-[35%] right-[15%] w-1.5 h-1.5 bg-accent rounded-full opacity-25 animate-float-mid"></div>
+  <div class="absolute bottom-[30%] left-[20%] w-1 h-1 bg-accent rounded-full opacity-35 animate-float-fast"></div>
+  <div class="absolute top-[60%] right-[25%] w-0.5 h-0.5 bg-accent rounded-full opacity-50 animate-float-slow"></div>
+
+  <!-- Content - centered -->
+  <div class="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-10 w-full">
+    <!-- Tag -->
+    <div class="reveal mb-8">
+      <span class="tag">
+        <span class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse"></span>
+        {t(lang, 'hero.tag')}
+      </span>
+    </div>
+
+    <!-- Title -->
+    <div class="reveal reveal-delay-1 mb-8 lg:mb-10">
+      <h1 class="font-display text-[clamp(2.5rem,7vw,6.5rem)] font-800 leading-[0.95] tracking-[-0.03em]">
+        <span class="block text-text/40">{t(lang, 'hero.title.line1')}</span>
+        <span class="block text-text/40">{t(lang, 'hero.title.line2')}</span>
+        <span class="block text-accent">{t(lang, 'hero.title.line3')}</span>
+      </h1>
+    </div>
+
+    <!-- Subtitle -->
+    <p class="reveal reveal-delay-2 max-w-xl text-base lg:text-lg text-text-secondary leading-relaxed font-light mb-10 lg:mb-12">
+      {t(lang, 'hero.subtitle')}
+    </p>
+
+    <!-- CTAs -->
+    <div class="reveal reveal-delay-3 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+      <a href="#contact" class="btn-primary">
+        <span>{t(lang, 'hero.cta')}</span>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="https://www.aisdlc.io/" target="_blank" rel="noopener" class="btn-ghost">
+        <span>{t(lang, 'hero.cta2')}</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+    <span class="text-[0.55rem] font-mono uppercase tracking-[0.3em] text-text-tertiary">Scroll</span>
+    <div class="w-px h-8 bg-gradient-to-b from-accent to-transparent animate-pulse"></div>
+  </div>
+</section>
+
+<!-- Ticker bar -->
+<div class="relative border-y border-border bg-bg-elevated py-3.5 overflow-hidden">
+  <div class="ticker-track">
+    {Array(2).fill(null).map(() => (
+      <div class="flex items-center gap-12 px-6">
+        <span class="text-[0.65rem] font-mono uppercase tracking-[0.2em] text-text-tertiary whitespace-nowrap">AI-Native SDLC</span>
+        <span class="text-accent/30">///</span>
+        <span class="text-[0.65rem] font-mono uppercase tracking-[0.2em] text-text-tertiary whitespace-nowrap">Field Developer Engineers</span>
+        <span class="text-accent/30">///</span>
+        <span class="text-[0.65rem] font-mono uppercase tracking-[0.2em] text-text-tertiary whitespace-nowrap">100+ Teams Transformed</span>
+        <span class="text-accent/30">///</span>
+        <span class="text-[0.65rem] font-mono uppercase tracking-[0.2em] text-text-tertiary whitespace-nowrap">Governance-First Approach</span>
+        <span class="text-accent/30">///</span>
+        <span class="text-[0.65rem] font-mono uppercase tracking-[0.2em] text-text-tertiary whitespace-nowrap">By the Founders of Kodus</span>
+        <span class="text-accent/30">///</span>
+        <span class="text-[0.65rem] font-mono uppercase tracking-[0.2em] text-text-tertiary whitespace-nowrap">Measurable ROI</span>
+        <span class="text-accent/30">///</span>
+        <span class="text-[0.65rem] font-mono uppercase tracking-[0.2em] text-text-tertiary whitespace-nowrap">From Ad Hoc to Governed</span>
+        <span class="text-accent/30">///</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    33% { transform: translateY(-20px) translateX(5px); }
+    66% { transform: translateY(10px) translateX(-5px); }
+  }
+  @keyframes float-mid {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-15px) translateX(-8px); }
+  }
+  @keyframes float-fast {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-25px); }
+  }
+  .animate-float-slow { animation: float-slow 8s ease-in-out infinite; }
+  .animate-float-mid { animation: float-mid 6s ease-in-out infinite; }
+  .animate-float-fast { animation: float-fast 4s ease-in-out infinite; }
+</style>

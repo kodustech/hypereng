@@ -1,0 +1,84 @@
+---
+import type { Lang } from '../i18n/translations';
+import { t } from '../i18n/translations';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const phases = ['1', '2', '3', '4', '5', '6', '7'] as const;
+---
+
+<section id="phases" class="relative py-28 lg:py-40 overflow-hidden">
+  <div class="hr-glow mb-28 lg:mb-40"></div>
+
+  <div class="section-num">03</div>
+
+  <!-- Animated DNA/pipeline helix -->
+  <svg class="absolute right-10 top-[20%] w-[80px] h-[500px] opacity-[0.07] pointer-events-none" viewBox="0 0 80 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10,0 C70,50 10,100 70,150 C10,200 70,250 10,300 C70,350 10,400 70,450 C10,500 70,550 10,600" stroke="var(--color-accent)" stroke-width="1" stroke-dasharray="4 4">
+      <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="3s" repeatCount="indefinite" />
+    </path>
+    <path d="M70,0 C10,50 70,100 10,150 C70,200 10,250 70,300 C10,350 70,400 10,450 C70,500 10,550 70,600" stroke="var(--color-accent)" stroke-width="1" stroke-dasharray="4 4">
+      <animate attributeName="stroke-dashoffset" from="0" to="32" dur="3s" repeatCount="indefinite" />
+    </path>
+    <!-- Cross-links -->
+    {[75, 225, 375].map(y => (
+      <line x1="25" y1={y} x2="55" y2={y} stroke="var(--color-accent)" stroke-width="0.5" opacity="0.5" />
+    ))}
+    <!-- Nodes -->
+    {[0, 150, 300, 450].map(y => (
+      <circle cx="40" cy={y} r="2" fill="var(--color-accent)" opacity="0.4">
+        <animate attributeName="opacity" values="0.2;0.6;0.2" dur={`${2 + y/200}s`} repeatCount="indefinite" />
+      </circle>
+    ))}
+  </svg>
+
+  <div class="max-w-[1400px] mx-auto px-6 lg:px-10">
+    <div class="reveal mb-6">
+      <span class="tag">{t(lang, 'phases.tag')}</span>
+    </div>
+
+    <h2 class="reveal reveal-delay-1 font-heading text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-800 leading-[1.05] tracking-[-0.02em] max-w-4xl mb-6">
+      {t(lang, 'phases.title')}
+    </h2>
+
+    <p class="reveal reveal-delay-2 text-base lg:text-lg text-text-secondary leading-relaxed font-light max-w-2xl mb-16 lg:mb-24">
+      {t(lang, 'phases.subtitle')}
+    </p>
+
+    <!-- Phases: asymmetric stacked layout -->
+    <div class="space-y-3">
+      {phases.map((num, i) => {
+        const isHighlight = num === '3';
+        return (
+          <div class={`reveal reveal-delay-${Math.min(i + 1, 4)} group flex flex-col sm:flex-row items-stretch border transition-all duration-300 card-lift ${isHighlight ? 'border-accent/30 bg-accent/[0.03]' : 'border-border bg-transparent hover:bg-bg-elevated'}`}>
+            {/* Left: number */}
+            <div class={`sm:w-24 lg:w-32 shrink-0 flex items-center justify-center py-5 sm:py-0 border-b sm:border-b-0 sm:border-r ${isHighlight ? 'border-accent/20' : 'border-border'}`}>
+              <span class={`font-mono text-xs tracking-[0.2em] ${isHighlight ? 'text-accent' : 'text-text-tertiary group-hover:text-accent/60 transition-colors'}`}>
+                0{num}
+              </span>
+            </div>
+
+            {/* Content */}
+            <div class="flex-1 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8 p-5 lg:p-6">
+              <h3 class={`font-heading text-base lg:text-lg font-700 sm:w-56 shrink-0 ${isHighlight ? 'text-accent' : 'group-hover:text-text transition-colors'}`}>
+                {t(lang, `phases.${num}.title`)}
+              </h3>
+              <p class="text-sm text-text-secondary leading-relaxed font-light flex-1">
+                {t(lang, `phases.${num}.desc`)}
+              </p>
+              {isHighlight && (
+                <div class="shrink-0 text-[0.6rem] font-mono uppercase tracking-[0.2em] text-accent border border-accent/20 px-3 py-1.5 whitespace-nowrap">
+                  Kodus
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

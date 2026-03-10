@@ -1,0 +1,90 @@
+---
+import type { Lang } from '../i18n/translations';
+import { t } from '../i18n/translations';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const steps = [
+  { key: 'step1' as const, num: '01' },
+  { key: 'step2' as const, num: '02' },
+  { key: 'step3' as const, num: '03' },
+  { key: 'step4' as const, num: '04' },
+];
+---
+
+<section id="how" class="relative py-28 lg:py-40 overflow-hidden">
+  <div class="hr-glow mb-28 lg:mb-40"></div>
+  <div class="section-num">02</div>
+
+  <!-- Animated connection SVG -->
+  <svg class="absolute left-0 top-[40%] w-full h-[300px] pointer-events-none opacity-[0.06]" viewBox="0 0 1400 300" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <path d="M0,150 C350,50 350,250 700,150 C1050,50 1050,250 1400,150" stroke="var(--color-accent)" stroke-width="1" stroke-dasharray="8 6">
+      <animate attributeName="stroke-dashoffset" from="0" to="-56" dur="4s" repeatCount="indefinite" />
+    </path>
+    <path d="M0,150 C350,250 350,50 700,150 C1050,250 1050,50 1400,150" stroke="var(--color-accent)" stroke-width="0.5" stroke-dasharray="4 8" opacity="0.5">
+      <animate attributeName="stroke-dashoffset" from="0" to="48" dur="5s" repeatCount="indefinite" />
+    </path>
+  </svg>
+
+  <div class="max-w-[1400px] mx-auto px-6 lg:px-10">
+    <div class="reveal mb-6">
+      <span class="tag">{t(lang, 'how.tag')}</span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20 mb-20 lg:mb-28">
+      <h2 class="reveal reveal-delay-1 font-heading text-3xl sm:text-4xl lg:text-5xl font-800 leading-[1.05] tracking-[-0.02em]">
+        {t(lang, 'how.title')}
+      </h2>
+      <p class="reveal reveal-delay-2 text-base lg:text-lg text-text-secondary leading-relaxed font-light self-end">
+        {t(lang, 'how.subtitle')}
+      </p>
+    </div>
+
+    <!-- Steps grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-0 border border-border relative">
+      <!-- Animated center cross -->
+      <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 z-10 hidden md:block" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="12" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.3">
+          <animate attributeName="r" values="8;14;8" dur="4s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.1;0.4;0.1" dur="4s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="24" cy="24" r="3" fill="var(--color-accent)" opacity="0.5">
+          <animate attributeName="opacity" values="0.3;0.7;0.3" dur="2s" repeatCount="indefinite" />
+        </circle>
+      </svg>
+
+      {steps.map((step, i) => (
+        <div class={`reveal reveal-delay-${Math.min(i + 1, 4)} group p-8 lg:p-12 ${i < 2 ? 'border-b border-border' : ''} ${i % 2 === 0 ? 'md:border-r border-border' : ''} transition-colors duration-500 hover:bg-bg-elevated relative`}>
+          {/* Connector dot */}
+          <div class="absolute top-4 right-4 flex items-center gap-2">
+            <div class="w-1 h-1 bg-accent/30 rounded-full group-hover:bg-accent/80 transition-colors"></div>
+            <div class="w-6 h-px bg-border group-hover:bg-accent/40 transition-colors"></div>
+            <div class="w-1.5 h-1.5 border border-border rounded-full group-hover:border-accent/60 transition-colors"></div>
+          </div>
+
+          <div class="flex items-start justify-between mb-8">
+            <span class="font-heading text-5xl lg:text-6xl font-800 text-border group-hover:text-accent/20 transition-colors duration-500">{step.num}</span>
+          </div>
+
+          <h3 class="font-heading text-xl lg:text-2xl font-700 mb-4 group-hover:text-accent transition-colors duration-300">
+            {t(lang, `how.${step.key}.title`)}
+          </h3>
+          <p class="text-sm lg:text-base text-text-secondary leading-relaxed font-light">
+            {t(lang, `how.${step.key}.desc`)}
+          </p>
+
+          {/* Step progress bar */}
+          <div class="mt-6 flex items-center gap-2">
+            {[1,2,3,4].map((s) => (
+              <div class={`h-0.5 flex-1 rounded-full transition-colors duration-500 ${s <= i + 1 ? 'bg-accent/40 group-hover:bg-accent' : 'bg-border'}`}></div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

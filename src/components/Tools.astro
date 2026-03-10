@@ -1,0 +1,127 @@
+---
+import type { Lang } from '../i18n/translations';
+import { t } from '../i18n/translations';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+
+const tools = [
+  {
+    key: 'kodus' as const,
+    repo: 'kodustech/kodus-ai',
+    url: 'https://github.com/kodustech/kodus-ai',
+    stars: 982,
+    highlight: true,
+  },
+  {
+    key: 'readiness' as const,
+    repo: 'kodustech/agent-readiness',
+    url: 'https://github.com/kodustech/agent-readiness',
+    stars: 14,
+    highlight: false,
+  },
+  {
+    key: 'skills' as const,
+    repo: 'kodustech/awesome-agent-skills',
+    url: 'https://github.com/kodustech/awesome-agent-skills',
+    stars: 23,
+    highlight: false,
+  },
+  {
+    key: 'review' as const,
+    repo: 'kodustech/awesome-ai-code-review',
+    url: 'https://github.com/kodustech/awesome-ai-code-review',
+    stars: 12,
+    highlight: false,
+  },
+];
+---
+
+<section id="tools" class="relative py-28 lg:py-40 overflow-hidden">
+  <div class="hr-glow mb-28 lg:mb-40"></div>
+
+  <div class="section-num">06</div>
+
+  <!-- Decorative: code bracket SVG -->
+  <svg class="absolute top-32 right-[5%] w-[180px] h-[180px] opacity-[0.04] pointer-events-none" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M60,20 L30,20 L30,160 L60,160" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round">
+      <animate attributeName="stroke-dashoffset" from="400" to="0" dur="4s" fill="freeze" />
+    </path>
+    <path d="M120,20 L150,20 L150,160 L120,160" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round">
+      <animate attributeName="stroke-dashoffset" from="400" to="0" dur="4s" fill="freeze" />
+    </path>
+    <path d="M100,30 L80,150" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 6">
+      <animate attributeName="stroke-dashoffset" from="0" to="-40" dur="3s" repeatCount="indefinite" />
+    </path>
+  </svg>
+
+  <div class="max-w-[1400px] mx-auto px-6 lg:px-10">
+    <div class="reveal mb-6">
+      <span class="tag">{t(lang, 'tools.tag')}</span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-20 mb-16 lg:mb-24">
+      <h2 class="reveal reveal-delay-1 font-heading text-3xl sm:text-4xl lg:text-5xl font-800 leading-[1.05] tracking-[-0.02em]">
+        {t(lang, 'tools.title')}
+      </h2>
+      <p class="reveal reveal-delay-2 text-base lg:text-lg text-text-secondary leading-relaxed font-light self-end">
+        {t(lang, 'tools.subtitle')}
+      </p>
+    </div>
+
+    <!-- Tools grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {tools.map((tool, i) => (
+        <a
+          href={tool.url}
+          target="_blank"
+          rel="noopener"
+          class={`reveal reveal-delay-${Math.min(i + 1, 4)} group block border transition-all duration-300 card-lift ${tool.highlight ? 'border-accent/30 bg-accent/[0.03] md:col-span-2' : 'border-border bg-transparent hover:bg-bg-elevated'}`}
+        >
+          <div class={`p-6 lg:p-8 ${tool.highlight ? 'flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-12' : ''}`}>
+            {/* Header row */}
+            <div class={`flex items-start justify-between gap-4 ${tool.highlight ? 'lg:flex-1' : 'mb-4'}`}>
+              <div class="flex-1">
+                {/* Repo path */}
+                <div class="flex items-center gap-2 mb-2">
+                  <svg class="w-4 h-4 text-text-tertiary group-hover:text-accent transition-colors" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                  </svg>
+                  <span class="text-[0.65rem] font-mono text-text-tertiary tracking-wider">{tool.repo}</span>
+                </div>
+
+                <h3 class={`font-heading font-700 mb-2 group-hover:text-accent transition-colors ${tool.highlight ? 'text-xl lg:text-2xl' : 'text-lg'}`}>
+                  {t(lang, `tools.${tool.key}.name`)}
+                </h3>
+
+                <p class="text-sm text-text-secondary font-light leading-relaxed">
+                  {t(lang, `tools.${tool.key}.desc`)}
+                </p>
+              </div>
+            </div>
+
+            {/* Footer: stars + link */}
+            <div class={`flex items-center justify-between gap-4 ${tool.highlight ? 'lg:flex-col lg:items-end lg:gap-3 shrink-0' : 'mt-5 pt-4 border-t border-border/50'}`}>
+              {/* Stars */}
+              <div class="flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-accent/60" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
+                </svg>
+                <span class="text-xs font-mono text-text-tertiary">{tool.stars} {t(lang, 'tools.stars')}</span>
+              </div>
+
+              {/* View link */}
+              <div class="flex items-center gap-2 text-[0.65rem] font-mono uppercase tracking-[0.15em] text-text-tertiary group-hover:text-accent transition-colors">
+                <span>{t(lang, 'tools.view')}</span>
+                <svg class="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+              </div>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
