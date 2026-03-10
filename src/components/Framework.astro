@@ -56,31 +56,44 @@ const levels = [
       {levels.map((item) => {
         const isTop = item.level === 4;
         return (
-          <div class={`group flex items-stretch border-x border-t last:border-b transition-colors duration-300 ${isTop ? 'border-accent/30 bg-accent/[0.04]' : 'border-border hover:bg-bg-elevated'}`}>
-            {/* Level badge */}
-            <div class={`w-16 lg:w-20 shrink-0 flex items-center justify-center border-r ${isTop ? 'border-accent/20 bg-accent/10' : 'border-border'}`}>
-              <span class={`font-mono text-sm font-600 ${isTop ? 'text-accent' : 'text-text-tertiary'}`}>
-                L{item.level}
-              </span>
+          <div class={`group border-x border-t last:border-b transition-colors duration-300 ${isTop ? 'border-accent/30 bg-accent/[0.04]' : 'border-border hover:bg-bg-elevated'}`}>
+            {/* Mobile: stacked layout */}
+            <div class="flex flex-col sm:flex-row sm:items-stretch">
+              {/* Level badge + Name row */}
+              <div class="flex items-center border-b sm:border-b-0">
+                <div class={`w-14 sm:w-16 lg:w-20 shrink-0 flex items-center justify-center py-3 sm:py-0 border-r ${isTop ? 'border-accent/20 bg-accent/10' : 'border-border'}`}>
+                  <span class={`font-mono text-xs sm:text-sm font-600 ${isTop ? 'text-accent' : 'text-text-tertiary'}`}>
+                    L{item.level}
+                  </span>
+                </div>
+                <div class="px-4 py-3 sm:py-0 sm:w-32 lg:w-44 shrink-0 sm:flex sm:items-center sm:border-r sm:border-border">
+                  <span class={`font-heading text-sm font-600 ${isTop ? 'text-accent' : 'text-text'}`}>
+                    {t(lang, `framework.${item.key}`)}
+                  </span>
+                </div>
+              </div>
+
+              {/* Description */}
+              <div class="flex-1 flex items-center px-4 lg:px-6 py-3 sm:py-4 lg:py-5">
+                <p class="text-sm text-text-secondary font-light">{t(lang, `framework.${item.key}.desc`)}</p>
+              </div>
+
+              {/* Progress bar - hidden on small */}
+              <div class="hidden md:flex w-32 lg:w-48 shrink-0 items-center px-4 lg:px-6 border-l border-border">
+                <div class="w-full h-1 bg-border rounded-full overflow-hidden">
+                  <div
+                    class={`h-full rounded-full transition-all duration-700 ${isTop ? 'bg-accent' : 'bg-text-tertiary'}`}
+                    style={`width: ${item.pct}%`}
+                  ></div>
+                </div>
+              </div>
             </div>
 
-            {/* Name */}
-            <div class="w-32 lg:w-44 shrink-0 flex items-center px-4 lg:px-6 border-r border-border">
-              <span class={`font-heading text-sm font-600 ${isTop ? 'text-accent' : 'text-text'}`}>
-                {t(lang, `framework.${item.key}`)}
-              </span>
-            </div>
-
-            {/* Description */}
-            <div class="flex-1 flex items-center px-4 lg:px-6 py-4 lg:py-5">
-              <p class="text-sm text-text-secondary font-light">{t(lang, `framework.${item.key}.desc`)}</p>
-            </div>
-
-            {/* Progress bar */}
-            <div class="hidden md:flex w-32 lg:w-48 shrink-0 items-center px-4 lg:px-6 border-l border-border">
+            {/* Mobile progress bar */}
+            <div class="md:hidden px-4 pb-3">
               <div class="w-full h-1 bg-border rounded-full overflow-hidden">
                 <div
-                  class={`h-full rounded-full transition-all duration-700 ${isTop ? 'bg-accent' : 'bg-text-tertiary'}`}
+                  class={`h-full rounded-full ${isTop ? 'bg-accent' : 'bg-text-tertiary'}`}
                   style={`width: ${item.pct}%`}
                 ></div>
               </div>

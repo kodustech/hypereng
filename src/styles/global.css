@@ -25,6 +25,7 @@ html {
   scroll-behavior: smooth;
   background: var(--color-bg);
   color: var(--color-text);
+  overflow-x: hidden;
 }
 
 body {
@@ -72,15 +73,16 @@ body {
 .section-num {
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: clamp(8rem, 20vw, 16rem);
+  font-size: clamp(5rem, 20vw, 16rem);
   line-height: 0.8;
   color: var(--color-border);
   position: absolute;
-  right: -2%;
+  right: 0;
   top: -4rem;
   pointer-events: none;
   user-select: none;
   opacity: 0.4;
+  overflow: hidden;
 }
 
 /* ── Ticker / marquee ── */

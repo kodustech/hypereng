@@ -44,23 +44,84 @@ const otherLangUrl = lang === 'en' ? '/pt' : '/';
         {otherLang.toUpperCase()}
       </a>
       <a
-        href="#contact"
+        href="https://cal.com/gabrielmalinosqui/ai-sdlc-discovery-call" target="_blank" rel="noopener"
         class="hidden sm:inline-flex text-[0.65rem] font-mono uppercase tracking-[0.15em] px-5 py-2.5 bg-accent text-bg font-600 hover:bg-accent-hover transition-all"
       >
         {t(lang, 'nav.cta')}
       </a>
+
+      <!-- Mobile hamburger -->
+      <button id="mobile-toggle" class="lg:hidden flex flex-col items-center justify-center w-9 h-9 gap-1.5 group" aria-label="Menu">
+        <span class="block w-5 h-px bg-text-secondary group-hover:bg-accent transition-all origin-center" id="bar1"></span>
+        <span class="block w-5 h-px bg-text-secondary group-hover:bg-accent transition-all" id="bar2"></span>
+        <span class="block w-3 h-px bg-text-secondary group-hover:bg-accent transition-all origin-center ml-auto" id="bar3"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="lg:hidden hidden border-t border-border bg-bg/95 backdrop-blur-xl">
+    <div class="max-w-[1400px] mx-auto px-6 py-6 flex flex-col gap-1">
+      <a href="#problem" class="mobile-link py-3 text-sm font-mono uppercase tracking-[0.12em] text-text-secondary hover:text-accent transition-colors border-b border-border/50">{t(lang, 'nav.problem')}</a>
+      <a href="#how" class="mobile-link py-3 text-sm font-mono uppercase tracking-[0.12em] text-text-secondary hover:text-accent transition-colors border-b border-border/50">{t(lang, 'nav.how')}</a>
+      <a href="#phases" class="mobile-link py-3 text-sm font-mono uppercase tracking-[0.12em] text-text-secondary hover:text-accent transition-colors border-b border-border/50">{t(lang, 'nav.phases')}</a>
+      <a href="#credentials" class="mobile-link py-3 text-sm font-mono uppercase tracking-[0.12em] text-text-secondary hover:text-accent transition-colors border-b border-border/50">{t(lang, 'nav.credentials')}</a>
+      <a href="#framework" class="mobile-link py-3 text-sm font-mono uppercase tracking-[0.12em] text-text-secondary hover:text-accent transition-colors border-b border-border/50">{t(lang, 'nav.framework')}</a>
+      <a href="#tools" class="mobile-link py-3 text-sm font-mono uppercase tracking-[0.12em] text-text-secondary hover:text-accent transition-colors border-b border-border/50">{t(lang, 'nav.tools')}</a>
+      <a href="https://cal.com/gabrielmalinosqui/ai-sdlc-discovery-call" target="_blank" rel="noopener" class="mt-4 text-center text-sm font-mono uppercase tracking-[0.12em] px-5 py-3 bg-accent text-bg font-600">{t(lang, 'nav.cta')}</a>
     </div>
   </div>
 </nav>
 
 <script>
   const nav = document.getElementById('nav');
+  const toggle = document.getElementById('mobile-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const bar1 = document.getElementById('bar1');
+  const bar2 = document.getElementById('bar2');
+  const bar3 = document.getElementById('bar3');
+  let isOpen = false;
+
+  // Scroll effect
   window.addEventListener('scroll', () => {
     if (window.scrollY > 80) {
       nav?.classList.add('nav-scrolled');
     } else {
       nav?.classList.remove('nav-scrolled');
     }
+  });
+
+  // Toggle mobile menu
+  toggle?.addEventListener('click', () => {
+    isOpen = !isOpen;
+    menu?.classList.toggle('hidden', !isOpen);
+    // Animate bars
+    if (isOpen) {
+      bar1!.style.transform = 'rotate(45deg) translateY(3.5px)';
+      bar2!.style.opacity = '0';
+      bar3!.style.transform = 'rotate(-45deg) translateY(-3.5px)';
+      bar3!.style.width = '1.25rem';
+      bar3!.style.marginLeft = '0';
+    } else {
+      bar1!.style.transform = '';
+      bar2!.style.opacity = '1';
+      bar3!.style.transform = '';
+      bar3!.style.width = '0.75rem';
+      bar3!.style.marginLeft = 'auto';
+    }
+  });
+
+  // Close on link click
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      isOpen = false;
+      menu?.classList.add('hidden');
+      bar1!.style.transform = '';
+      bar2!.style.opacity = '1';
+      bar3!.style.transform = '';
+      bar3!.style.width = '0.75rem';
+      bar3!.style.marginLeft = 'auto';
+    });
   });
 </script>
 
